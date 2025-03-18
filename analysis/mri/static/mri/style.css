@@ -1,0 +1,662 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif,'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+
+/* Form container styling */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: rgba(255, 255, 255, 0.2); /* More transparent white */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 8px 16px rgba(0, 0, 0, 0.5); /* Softer shadow */
+    max-width: 400px;
+    width: 100%;
+    backdrop-filter: blur(15px); /* Stronger blur effect */
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+}
+
+/* Input and button styles */
+input, button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    outline: none;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #ff5733;
+    text-decoration: underline;
+}
+
+/* Center the paragraph */
+form p {
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+
+/* Error message styles (if you add any) */
+p.error {
+    color: red;
+    text-align: center;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.input-group i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 18px;
+    pointer-events: none;
+    
+}
+
+/* Left-side icon (e.g., user, email) */
+.input-group i:first-of-type {
+    left: 10px; /* Keep the icon inside the box */
+}
+
+.transparent-input {
+    background: rgba(255, 255, 255, 0.5); /* Transparent background */
+    border: 1px solid rgba(255, 255, 255, 0.8); /* Semi-transparent border */
+    padding: 10px 40px 10px 40px; /* Adjust padding for icon */
+    width: 100%;
+    border-radius: 5px;
+    color: #000; /* Text color */
+    font-size: 16px;
+    outline: none; /* Remove default outline */
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+
+.transparent-input::placeholder {
+    color: rgba(0, 0, 0, 0.6); /* Placeholder color */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.transparent-input:focus {
+    background: rgba(255, 255, 255, 0.8); /* Slightly more opaque on focus */
+    border-color: #007bff; /* Highlight border on focus */
+}
+
+/* Toggle password icon styling */
+.field-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px; /* Position the icon on the right side */
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.6);
+    /* Default color */
+    cursor: pointer; /* Pointer cursor for hover */
+    transition: color 0.3s ease;
+}
+
+/* Change color on hover */
+.field-icon:hover {
+    color: #007bff;
+}
+
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Space between brand and links */
+    align-items: center; /* Vertically align items */
+    background-color: #007BFF; /* Navbar background color */
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Navbar brand styles */
+.navbar-brand {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #ffcc00; /* Hover effect for the brand */
+}
+
+/* Navbar links container */
+.navbar-links {
+    display: flex;
+    gap: 20px; /* Space between links */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+/* Navbar links styles */
+.navbar-links a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: #ffcc00; /* Hover effect for links */
+}
+
+/* Main content styling */
+.main-content {
+    margin-top: 20px; /* Push content below the navbar */
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: rgba(0, 0, 0, 0.5); /* Transparent black background */
+    border-radius: 10px; /* Optional: rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Optional: shadow for depth */
+    max-width: 800px; /* Optional: control width */
+    margin: 0 auto; /* Center the content */
+    padding-top: 80px;
+}
+
+/* Header styling */
+.main-content h1 {
+    font-size: 32px;
+    color: #ffffff; /* White color for the text */
+    margin-bottom: 15px;
+}
+
+/* Paragraph styling */
+.main-content p {
+    font-size: 18px;
+    color: #ffffff; /* White color for the text */
+}
+
+
+
+/* Form container styling */
+.form-container1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 50px;
+    margin-top: 60px; /* Prevent overlap with navbar */
+}
+
+/* Flexbox layout for form */
+.form1 {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px; /* Space below form */
+}
+
+/* Flexbox layout for two columns */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between columns */
+}
+
+/* Style for each column */
+.form-column {
+    flex: 1; /* Each column takes equal width */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Styling for select dropdown */
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: white;
+    outline: none;
+}
+/* Input and button styles */
+input, button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: left;  /* Ensures the label is left-aligned */
+    margin-left: 0; /* Ensures no extra space before the label */
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #28a745; /* Green hover color */
+}
+
+/* File input (image upload) styling */
+input[type="file"] {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+    /* Stack navbar items vertically on smaller screens */
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
+    }
+
+    .navbar-links {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .navbar-links a {
+        font-size: 16px; /* Slightly smaller font size for mobile */
+    }
+
+    /* Adjusting the main content for small screens */
+    .main-content {
+        padding: 15px;
+        margin-top: 120px; /* Ensure the content doesn't overlap with navbar */
+    }
+}
+
+/* Floating Help Button */
+.ai-help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 50%; /* Make the icon circular */
+    padding: 15px; /* Increase padding to make it larger */
+    font-size: 24px; /* Increase font size for the icon */
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ai-help-button:hover {
+    background-color: #0056b3;
+}
+
+/* Chat Modal */
+.chat-modal {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 400px;
+    max-height: 500px;
+    background-color: #f8f9fa;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    z-index: 1000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+}
+
+/* Chat Header */
+.chat-header {
+    background-color: #007BFF;
+    color: white;
+    padding: 5px;
+    padding-bottom: 2px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header .close-chat {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Chat Body */
+.chat-body {
+    padding: 35px;
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: #ffffff;
+}
+
+.messages {
+    font-size: 14px;
+}
+
+.messages .message {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.messages .user-message {
+    margin-left: auto;
+    background-color: #c2eff5;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 50%;  /* Reduce the width of the user message */
+    font-size: 14px;  /* Optionally, adjust font size if needed */
+}
+
+.messages .bot-message {
+    margin-right: auto;
+    background-color: #449dfc;
+    padding: 10px 15px;
+    border-radius: 12px;
+    max-width: 75%;
+}
+
+/* Chat Footer */
+.chat-footer {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+}
+
+/* Increased width for the input */
+.chat-footer input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 14px;
+    width: 80%;  /* Increased width */
+}
+
+/* Circular send button */
+.chat-footer button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    width: 50px;  /* Set width */
+    height: 50px;  /* Set height */
+    border-radius: 50%;  /* Make button circular */
+    font-size: 18px;  /* Increase the font size */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.chat-footer button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Result Container */
+.result-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 460px;
+    box-sizing: border-box; /* Ensures padding is included in width calculations */
+}
+
+/* Result Card Styling */
+.result-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border-left: 4px solid #1abc9c;
+    overflow: hidden; /* Prevents content overflow */
+    text-align: left;
+}
+
+/* Section Titles */
+.result-title,
+.result-section-title {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #1abc9c;
+    padding-bottom: 0.5rem;
+}
+
+/* Result Info Styling */
+.result-info {
+    display: flex;
+    flex-wrap: wrap; /* Ensures content wraps to a new line if it doesn't fit */
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Result Column Styling */
+.result-column {
+    flex: 1 1 calc(50% - 1rem); /* Two columns on larger screens with space between */
+    min-width: 280px; /* Prevent columns from shrinking too much */
+    box-sizing: border-box; /* Includes padding in the width calculation */
+}
+
+/* Paragraph Styling in Columns */
+.result-column p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.5; /* Improves readability */
+    word-wrap: break-word; /* Ensures long text doesn't overflow */
+    overflow-wrap: break-word; /* Ensures consistent text wrapping */
+}
+
+/* Strong Text Styling */
+.result-column p strong {
+    color: #2c3e50;
+}
+
+/* Image Styling */
+.result-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.result-image-container img {
+    max-width: 300px; /* Set maximum width for the image */
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid #1abc9c;
+    object-fit: contain; /* Ensures the image maintains its aspect ratio */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for better aesthetics */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    /* Stacking for Smaller Screens */
+    .result-info {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Full-Width Columns on Small Screens */
+    .result-column {
+        flex: 1 1 100%;
+    }
+
+    /* Image Sizing for Smaller Screens */
+    .result-image-container img {
+        max-width: 200px; /* Smaller image size for mobile devices */
+    }
+}
+.popup-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+    padding: 20px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-modal.success {
+    border: 2px solid green;
+}
+
+.popup-modal.error {
+    border: 2px solid red;
+}
+
+.popup-modal p {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.popup-modal button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-modal button:hover {
+    background-color: #0056b3;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.popup-overlay.active,
+.popup-modal.active {
+    display: block;
+}
+
+
+
+
+
+

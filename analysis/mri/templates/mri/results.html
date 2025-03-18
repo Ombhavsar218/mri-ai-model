@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <link rel="stylesheet" href="{% static 'mri/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="navbar-brand">MEDDATAAI</a>
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'login' %}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="result-container">
+        <!-- Patient Information Card -->
+        <div class="result-card">
+            <div class="result-title">
+                <h2>Patient Information</h2>
+            </div>
+            <div class="result-info">
+                <div class="result-column">
+                    <p><strong>Name:</strong> {{ patient_name }}</p>
+                    <p><strong>Age:</strong> {{ patient_age }}</p>
+                    <p><strong>Weight:</strong> {{ patient_weight }}</p>
+                    <p><strong>Blood Group:</strong> {{ blood_group }}</p>
+                </div>
+                <div class="result-column">
+                    <p><strong>Gender:</strong> {{ gender|capfirst }}</p>
+                    <p><strong>Doctor Name:</strong> {{ diagnosis }}</p>
+                    <p><strong>Medical Type:</strong> {{ medical_type|capfirst }}</p>
+                    <p><strong>Medical Problem:</strong> {{ medical_problem }}</p>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Prediction Result Card -->
+        <div class="result-card">
+            <div class="result-section-title">
+                <h2>Prediction Result</h2>
+            </div>
+            <p><strong>Prediction:</strong> {{ prediction|capfirst }}</p>
+            <p><strong>Confidence:</strong> {{ confidence|floatformat:2 }}%</p>
+            <p><strong>Tumor Status:</strong> {{ tumor_status }}</p>
+        </div>
+    
+        <!-- Uploaded Image Card -->
+        {% if image_base64 %}
+        <div class="result-card">
+            <div class="result-section-title">Uploaded MRI Image</div>
+            <div class="result-image-container">
+                <img src="data:image/jpeg;base64,{{ image_base64 }}" alt="Uploaded Image" />
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="correction-form">
+        <h3>Doctor Feedback</h3>
+        <form id="correction-form" action="{% url 'submit_correction'}" method="POST">
+            {% csrf_token %}
+             {{image_base64}}
+            <input type="hidden" name="image_id" value="{{ image_base64 }}">
+            <p>Image ID: {{ image_base64 }}</p>
+
+            <label for="corrected_label">Corrected Label:</label>
+            <input type="text" name="corrected_label" id="corrected_label" required>
+            
+            <button type="submit">Submit Correction</button>
+        </form>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+    
+        document.getElementById("correction-form")?.addEventListener("submit", function(event) {
+            let imageIdInput = document.querySelector("input[name='image_id']");
+            let correctedLabelInput = document.getElementById("corrected_label");
+            console.log(imageIdInput)
+            if (!imageIdInput || !imageIdInput.value) {
+                alert("Error: Image ID is missing!");
+                event.preventDefault();
+            } else if (!correctedLabelInput.value.trim()) {
+                alert("Please enter a corrected label.");
+                event.preventDefault();
+            } else {
+                console.log("Submitting Image ID:", imageIdInput.value);
+            }
+        });
+    </script>
+
+</body>
+</html>

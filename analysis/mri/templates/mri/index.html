@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'mri/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="home-page" style=" text-align: center; padding: 50px;width: 100%; padding-top: 80px; display: flex; flex-direction: column; justify-content: center;  align-items: center; 
+                         background-image: url('{% static 'mri/images/bg2.jpg' %}');">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="{% url 'home' %}" class="navbar-brand">MEDDATAAI</a>
+        <div class="navbar-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'mri:logout' %}">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content" style="padding-top: 10px; margin-top: 200px">
+        <h1>Welcome to MEDDATAAI</h1>
+        <p>Your trusted platform for AI-powered MRI analysis and structured data solutions.</p>
+    </div>
+
+     
+
+    <div class="form-container1">
+        <form class="form1" action="{% url 'mri:process_form' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="name">Patient Name</label>
+                    <input type="text" name="patient_name" placeholder="Enter Patient Name" required>
+                    <label for="age">Patient Age</label>
+                    <input type="number" name="patient_age" placeholder="Enter Patient Age" required>
+                    <label for="weight">Patient Weight</label>
+                    <input type="number" name="patient_weight" placeholder="Enter Patient Weight (kg)" required>
+                    <label for="Blood Group">Patient Blood Group</label>
+                    <input type="text" placeholder="Enter Patient Blood Group" name="blood_group" required>
+                    <label for="DOB">Patient DOB</label>
+                    <input type="date" placeholder="DD/MM/YYYY" required>
+                </div>
+                
+                <div class="form-column">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="male">------ Select Gender ------</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <label for="diagnosis">Doctor Name</label>
+                    <input type="text" id="diagnosis" name="diagnosis" placeholder="Enter Doctor Name" required>
+    
+                    <label for="medical-type">Medical Type</label>
+                    <select id="medical-type" name="medical_type" required>
+                        <option value="male">------ Select Medical Type ------</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="dentistry">Dentistry</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="pulmonology">Pulmonology</option>
+                        <option value="ophthalmology">Ophthalmology</option>
+                        <option value="diagnostics">Diagnostics</option>
+                    </select>
+    
+                    <label for="problem">Patient Medical Problem</label>
+                    <input type="text" placeholder="Enter Patient Medical Problem" name="medical_problem" required>
+
+                    
+                    <label for="image-upload">Upload Image</label>
+                    <input type="file" id="image-upload" name="image-upload" accept="image/*">
+
+                    
+                </div>
+                </div>
+                <button type="submit">Submit</button>
+            </div> 
+        </form>
+    </div>
+    
+    
+    <div class="ai-help-button" id="chatButton">
+        <i class="fas fa-robot"></i> <!-- Robot icon -->
+    </div>
+    
+    <div class="chat-modal" id="chatModal" style="display: none;">
+        <div class="chat-header">
+            <span class="close-chat" id="closeChat">&times;</span>
+            <h2>
+                <i class="fas fa-robot"></i> MEDAI Chat <!-- Robot icon in the header -->
+            </h2>
+        </div>
+        <div class="chat-body">
+            <div class="messages" id="messages">
+                <!-- Messages will appear here -->
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" placeholder="Type your message..." id="userMessage">
+            <button id="sendMessageButton">
+                <i class="fas fa-paper-plane"></i> <!-- Paper plane for sending -->
+            </button>
+        </div>
+    </div>
+    
+
+
+    <script src="{% static 'mri/js/script2.js' %}"></script>
+</body>
+</html>
+
