@@ -10,8 +10,9 @@ class Registration(models.Model):
     
 class MRIImage(models.Model):
     image = models.ImageField(upload_to="mri_uploads/")
+    image_base64 = models.TextField(blank=True, null=True)
     ai_prediction = models.CharField(max_length=100)
-    confidence = models.FloatField()
+    confidence = models.FloatField(blank=True, null=True)
     corrected_label = models.CharField(max_length=100, blank=True, null=True)  # Doctor’s correction
     reviewed_by_doctor = models.BooleanField(default=False)  # Indicates if corrected
 

@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 from tensorflow.keras.models import load_model
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
-import torch
+# import torch
 
 class MriConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -10,7 +10,7 @@ class MriConfig(AppConfig):
     def ready(self):
         # Load the MRI model once when the app starts
         global mri_model
-        MODEL_PATH = "D:/Final Project2/Final Project2/Final Project/Brain_Tumor_Model.h5"
+        MODEL_PATH = "/home/ritesh/projects/mri-ai-model/Brain_Tumor_Model.h5"
         mri_model = load_model(MODEL_PATH)
 
         # Load the GPT-2 model and tokenizer

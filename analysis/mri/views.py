@@ -9,7 +9,7 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 import numpy as np
 import cv2
-import os
+# import os
 import base64
 from io import BytesIO
 from PIL import Image
@@ -19,16 +19,16 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import logout
-from django.utils.decorators import decorator_from_middleware
-from django.middleware.cache import CacheMiddleware
-from django.http import HttpResponseRedirect
+# from django.utils.decorators import decorator_from_middleware
+# from django.middleware.cache import CacheMiddleware
+# from django.http import HttpResponseRedirect
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
-import torch
+# import torch
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import MRIImage
-import json
-from django.http import HttpResponse
+# import json
+# from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
 
@@ -97,7 +97,7 @@ def register_user(request):
 
 
 # Load the trained model
-MODEL_PATH = "D:/Final Project2/Final Project2/Final Project/Brain_Tumor_Model.h5"
+MODEL_PATH = "/home/ritesh/projects/mri-ai-model/Brain_Tumor_Model.h5"
 model = load_model(MODEL_PATH)
 
 
@@ -150,12 +150,19 @@ def process_form(request):
             buffered = BytesIO()
             image.save(buffered, format="JPEG")
             img_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+            try:
+                mri_image = MRIImage.objects.get(image_base64=img_base64)
+                prediction = mri_image.corrected_label
+                confidence = mri_image.confidence
+                tumor_status = mri_image.corrected_label
+            except MRIImage.DoesNotExist:
+                # Perform the actual prediction using the image
+                prediction, confidence, tumor_status = predict_image(image_file)
+                # Convert confidence to percentage format
+                confidence = confidence * 100 
+                
             
-            # Perform the actual prediction using the image
-            prediction, confidence, tumor_status = predict_image(image_file)
             
-            # Convert confidence to percentage format
-            confidence_percentage = confidence * 100  # Convert to percentage
 
             # Extract patient details from the form
             patient_name = request.POST.get("patient_name")
@@ -171,7 +178,7 @@ def process_form(request):
             return render(request, "mri/results.html", {
                 "image_base64": img_base64,
                 "prediction": prediction,
-                "confidence": confidence_percentage,  # Pass the confidence as a percentage
+                "confidence": confidence,  # Pass the confidence as a percentage
                 "tumor_status": tumor_status,
                 "patient_name": patient_name,
                 "patient_age": patient_age,
@@ -214,20 +221,20 @@ def home(request):
     return render(request, 'mri/index.html')
 
 
-# Initialize GPT-2
-gpt_tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-gpt_model = GPT2LMHeadModel.from_pretrained("gpt2")
+# # Initialize GPT-2
+# gpt_tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+# gpt_model = GPT2LMHeadModel.from_pretrained("gpt2")
 
-# Function to generate GPT-2 response
-def generate_gpt2_response(user_message):
-    try:
-        inputs = gpt_tokenizer.encode(user_message, return_tensors="pt")
-        outputs = gpt_model.generate(inputs, max_length=150, num_return_sequences=1, no_repeat_ngram_size=2)
-        response = gpt_tokenizer.decode(outputs[0], skip_special_tokens=True)
-        return response
-    except Exception as e:
-        print(f"Error generating GPT-2 response: {e}")
-        return "Sorry, something went wrong with the chatbot."
+# # Function to generate GPT-2 response
+# def generate_gpt2_response(user_message):
+#     try:
+#         inputs = gpt_tokenizer.encode(user_message, return_tensors="pt")
+#         outputs = gpt_model.generate(inputs, max_length=150, num_return_sequences=1, no_repeat_ngram_size=2)
+#         response = gpt_tokenizer.decode(outputs[0], skip_special_tokens=True)
+#         return response
+#     except Exception as e:
+#         print(f"Error generating GPT-2 response: {e}")
+#         return "Sorry, something went wrong with the chatbot."
 
 # View to handle chatbot messages
 '''@csrf_exempt
@@ -277,13 +284,19 @@ def submit_correction(request):
         print(f"🔍 Existing MRIImage IDs: {list(all_images)}")
 
         try:
-            mri_image = MRIImage.objects.get(id=image_id)
+            mri_image = MRIImage.objects.get(image_base64=image_id)
             mri_image.corrected_label = corrected_label
             mri_image.reviewed_by_doctor = True
+            mri_image.confidence = 90.0
             mri_image.save()
             return JsonResponse({"message": "Correction saved successfully!"})
         except MRIImage.DoesNotExist:
             print(f"🚨 MRIImage with ID {image_id} not found!")  
-            return JsonResponse({"message": "Image not found"}, status=404)
+            mri_image = MRIImage.objects.create(image_base64=image_id)
+            mri_image.corrected_label = corrected_label
+            mri_image.reviewed_by_doctor = True
+            mri_image.confidence = 90.0
+            mri_image.save()
+            return JsonResponse({"message": "Correction saved successfully!"})
 
     return JsonResponse({"message": "Invalid request"}, status=400)

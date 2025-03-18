@@ -66,11 +66,10 @@
     <!-- Feedback Section -->
     <div class="correction-form">
         <h3>Doctor Feedback</h3>
-        <form id="correction-form" action="{% url 'submit_correction'}" method="POST">
+        <form id="correction-form" action="/mri/submit_correction/" method="POST">
             {% csrf_token %}
-             {{image_base64}}
-            <input type="hidden" name="image_id" value="{{ image_base64 }}">
-            <p>Image ID: {{ image_base64 }}</p>
+            <input type="hidden" name="image_id" value="{{ image_base64 }}" style="display: none;">
+            <p  style="display: none;">Image ID: {{ image_base64 }}</p>
 
             <label for="corrected_label">Corrected Label:</label>
             <input type="text" name="corrected_label" id="corrected_label" required>
