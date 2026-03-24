@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedDataAI - Doctor Portal</title>
+    <!-- Tailwind CSS Script CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased min-h-screen flex flex-col relative bg-slate-50 overflow-hidden">
+
+    <!-- Abstract Pattern Background for White Theme -->
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-[0.03] w-full"
+        style='background-image: url("data:image/svg+xml,%3Csvg width=\' 60\' height=\'60\' viewBox=\'0 0 60 60\'
+        xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23000000\'
+        fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6
+        34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");'></div>
+
+    <!-- Premium Sticky Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand -->
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        M
+                    </div>
+                    <a href="{% url 'home' %}" class="text-xl md:text-2xl font-bold tracking-tight text-slate-900">
+                        MEDDATA<span class="text-brand-600">AI</span>
+                    </a>
+                </div>
+                <!-- Links -->
+                <div class="flex items-center">
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow flex items-center justify-center p-4 pt-24 pb-12 animate-fade-in-up">
+        <div class="w-full max-w-4xl">
+            <div class="text-center mb-12 relative z-10">
+                <div
+                    class="w-16 h-16 bg-brand-100 rounded-2xl flex items-center justify-center text-brand-600 text-3xl mx-auto mb-6 shadow-sm border border-brand-200">
+                    <i class="fas fa-hospital-user"></i>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 drop-shadow-sm">
+                    Medical Professional Portal
+                </h1>
+                <p class="text-lg text-slate-600 font-medium drop-shadow-sm max-w-xl mx-auto">
+                    Select your designated role to access the review dashboards.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Referring Doctor Card -->
+                <div class="bg-white border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl p-8 flex flex-col items-center text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group relative overflow-hidden cursor-pointer"
+                    onclick="window.location.href='/login'">
+                    <!-- Top accent bar -->
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-blue-500 z-10 transition-all group-hover:h-2">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-white z-0"></div>
+                    <div
+                        class="w-20 h-20 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-3">Diagnostic Doctor</h2>
+                    <p class="text-slate-600 mb-8 flex-grow z-10">
+                        Access your patient's initial AI diagnostic results, view scans, and track the status of expert
+                        reviews.
+                    </p>
+                    <a href="/login"
+                        class="w-full py-3.5 px-6 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 z-10 hover:-translate-y-0.5">
+                        Doctor Login &rarr;
+                    </a>
+                </div>
+
+                <!-- Expert Reviewer Card -->
+                <div class="bg-white border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl p-8 flex flex-col items-center text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group relative overflow-hidden cursor-pointer"
+                    onclick="window.location.href='/expert-login'">
+                    <!-- Top accent bar -->
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-brand-500 z-10 transition-all group-hover:h-2">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-50/60 to-white z-0"></div>
+                    <div
+                        class="w-20 h-20 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300 z-10">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-3 z-10">Expert Reviewer</h2>
+                    <p class="text-slate-600 mb-8 flex-grow z-10">
+                        Review AI predictions, annotate findings, correct diagnostic labels, and issue official medical
+                        recommendations.
+                    </p>
+                    <a href="/expert-login"
+                        class="w-full py-3.5 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 shadow-md hover:shadow-lg transition-all duration-200 z-10 hover:-translate-y-0.5">
+                        Expert Login &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

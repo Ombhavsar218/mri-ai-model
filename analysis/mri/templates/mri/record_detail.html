@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedDataAI - Record Detail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 900: '#134e4a' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-800 flex h-screen overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 z-20 flex-shrink-0 relative shadow-xl">
+    <div class="h-20 flex items-center px-6 border-b border-slate-800/60 bg-slate-950/20">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-md mr-3">M</div>
+      <a href="{% url 'expertdashboard' %}" class="text-xl font-bold tracking-tight text-white">MEDDATA<span class="text-brand-500">AI</span></a>
+    </div>
+    <nav class="flex-grow overflow-y-auto py-6 px-4 space-y-1 custom-scrollbar">
+      <a href="{% url 'expertdashboard' %}" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-home w-5 mr-3 text-center"></i> Dashboard Overview
+      </a>
+      <a href="{% url 'checkings' %}" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-tasks w-5 mr-3 text-center"></i> Review Queue
+      </a>
+      <div class="space-y-1">
+        <button type="button" onclick="toggleDropdown('doctors-menu')" class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+          <div class="flex items-center"><i class="fas fa-user-md w-5 mr-3 text-center"></i> Directory</div>
+          <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="doctors-menu-icon"></i>
+        </button>
+        <div class="hidden pl-12 pr-4 py-2 space-y-1" id="doctors-menu">
+          <a href="{% url 'expertdoctor' %}" class="block px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">Expert Team</a>
+          <a href="{% url 'doctor' %}" class="block px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">Diagnostic Doctors</a>
+        </div>
+      </div>
+      <a href="{% url 'patient_list' %}" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-users w-5 mr-3 text-center"></i> Patient Registry
+      </a>
+      <a href="{% url 'infoform' %}" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-file-medical w-5 mr-3 text-center"></i> Information Form
+      </a>
+    </nav>
+    <div class="p-4 border-t border-slate-800/60 bg-slate-950/20">
+      <a href="{% url 'dashboard' %}" class="flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-red-500/10 hover:text-red-400 transition-colors w-full group">
+        <i class="fas fa-sign-out-alt mr-2 group-hover:-translate-x-1 transition-transform"></i> Sign Out
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex flex-col min-w-0 bg-slate-50 overflow-y-auto relative pb-20">
+    <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10 shadow-sm">
+      <div class="flex items-center gap-4">
+        <a href="{% url 'checkings' %}" class="flex-shrink-0 flex items-center justify-center text-slate-500 hover:text-brand-600 transition-colors cursor-pointer text-base sm:text-lg p-1 mr-2">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="flex flex-col justify-center">
+            <h1 class="text-2xl font-bold text-slate-900 leading-tight truncate max-w-[250px] md:max-w-xs">Patient Record</h1>
+            <div class="flex items-center text-xs text-slate-500 font-medium">
+                <a href="{% url 'checkings' %}" class="hover:text-brand-600 transition-colors truncate">Review Queue</a>
+                <span class="mx-1.5 text-slate-300">/</span>
+                <span class="text-slate-700 truncate max-w-[150px] sm:max-w-[200px]">{{ record.patient_name }}</span>
+            </div>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white shadow-sm flex items-center justify-center text-slate-500 overflow-hidden cursor-pointer hover:bg-slate-300 transition-colors">
+          <i class="fas fa-user cursor-pointer"></i>
+        </div>
+      </div>
+    </header>
+
+    <div class="p-8 max-w-7xl mx-auto w-full animate-fade-in-up">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Column 1: Info and Predictions -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center"><i class="fas fa-user-injured text-blue-500 mr-2"></i> Patient Basic Info</h3>
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Name</span>
+                    <span class="font-semibold text-slate-900">{{ record.patient_name }}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Age</span>
+                    <span class="font-semibold text-slate-900">{{ record.patient_age }}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Gender</span>
+                    <span class="font-semibold text-slate-900">{{ record.gender|capfirst }}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Medical Type</span>
+                    <span class="font-semibold text-slate-900">{{ record.medical_type|capfirst }}</span>
+                </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full {% if record.prediction == 'notumor' %}bg-green-500{% else %}bg-red-500{% endif %}"></div>
+            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center"><i class="fas fa-laptop-medical {% if record.prediction == 'notumor' %}text-green-500{% else %}text-red-500{% endif %} mr-2"></i> AI Predictions</h3>
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Prediction</span>
+                    <span class="font-bold uppercase tracking-wider {% if record.prediction == 'notumor' %}text-green-600{% else %}text-red-600{% endif %}">{{ record.prediction }}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Tumor Status</span>
+                    <span class="font-semibold text-slate-900">{{ record.tumor_status }}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Referring Doctor</span>
+                    <span class="font-semibold text-slate-900">Dr. {{ record.doctor_name }}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-100 pb-2">
+                    <span class="text-slate-500 font-medium">Symptom</span>
+                    <span class="font-semibold text-slate-900">{{ record.medical_problem }}</span>
+                </div>
+            </div>
+          </div>
+
+          <!-- Recommendations Card -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 relative overflow-hidden">
+              <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+              <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-lg font-bold text-slate-900 flex items-center"><i class="fas fa-notes-medical text-blue-500 mr-2"></i> Recommendations</h3>
+                  <button onclick="toggleEditModal()" class="px-3 py-1.5 bg-slate-50 text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-sm font-semibold transition-colors border border-slate-200">
+                      <i class="fas fa-edit mr-1"></i> Edit
+                  </button>
+              </div>
+              <div class="p-4 rounded-xl bg-blue-50/40 border border-blue-100/50 text-slate-700 text-sm leading-relaxed min-h-[80px]">
+                  {{ record.recommendation|default:"No recommendation provided yet."|linebreaksbr }}
+              </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Image and actions -->
+        <div class="lg:col-span-7 space-y-6">
+            {% if record.mri_image %}
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-slate-900"><i class="fas fa-image text-brand-500 mr-2"></i> Uploaded MRI Image</h3>
+                </div>
+                <div class="p-6 bg-slate-100/50 flex justify-center">
+                    <div class="rounded-2xl overflow-hidden border border-slate-200 bg-white p-2 shadow-inner inline-block">
+                        <img src="{{ record.mri_image.url }}" alt="MRI Image" class="max-w-md w-full max-h-80 object-contain rounded-xl">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Precautions Card -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center"><i class="fas fa-shield-alt text-amber-500 mr-2"></i> Precautions</h3>
+                    <button onclick="toggleEditModal()" class="px-3 py-1.5 bg-slate-50 text-slate-600 hover:bg-amber-50 hover:text-amber-600 rounded-lg text-sm font-semibold transition-colors border border-slate-200">
+                        <i class="fas fa-edit mr-1"></i> Edit
+                    </button>
+                </div>
+                <div class="p-4 rounded-xl bg-amber-50/40 border border-amber-100/50 text-slate-700 text-sm leading-relaxed min-h-[80px]">
+                    {{ record.precaution|default:"No precautions provided yet."|linebreaksbr }}
+                </div>
+            </div>
+
+            <!-- Print Actions -->
+            <div class="flex justify-end pt-2 mb-4">
+                <a href="{% url 'print_mri_report' record.id %}" target="_blank" class="px-6 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl shadow-brand-500/30 flex items-center gap-2 w-full sm:w-auto justify-center text-lg">
+                    <i class="fas fa-print"></i> Generate Official Report
+                </a>
+            </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Notes Modal -->
+  <div id="edit-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0">
+      <div id="edit-modal-body" class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-2xl w-full mx-4 transform transition-all scale-95 opacity-0">
+          <div class="flex items-center justify-between mb-6">
+              <h3 class="text-xl font-bold text-slate-900"><i class="fas fa-edit text-brand-500 mr-2"></i> Edit Clinical Notes</h3>
+              <button onclick="toggleEditModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-red-50 hover:text-red-500 text-slate-500 transition-colors">
+                  <i class="fas fa-times"></i>
+              </button>
+          </div>
+          <form method="POST" class="space-y-6">
+              {% csrf_token %}
+              <div>
+                  <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2"><i class="fas fa-notes-medical text-blue-500 mr-1"></i> Update Recommendation</label>
+                  <textarea name="recommendation" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm resize-none" placeholder="Enter patient recommendations here...">{{ record.recommendation }}</textarea>
+              </div>
+              <div>
+                  <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide mb-2"><i class="fas fa-shield-alt text-amber-500 mr-1"></i> Update Precaution</label>
+                  <textarea name="precaution" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-sm resize-none" placeholder="Enter required precautions here...">{{ record.precaution }}</textarea>
+              </div>
+              <div class="flex gap-3 justify-end pt-4 border-t border-slate-100">
+                  <button type="button" onclick="toggleEditModal()" class="px-6 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">Cancel</button>
+                  <button type="submit" class="px-6 py-2.5 rounded-xl bg-brand-600 text-white font-bold hover:bg-brand-700 shadow-lg shadow-brand-500/30 transition-all flex items-center gap-2">
+                      <i class="fas fa-save"></i> Save Notes
+                  </button>
+              </div>
+          </form>
+      </div>
+  </div>
+
+  <script>
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const icon = document.getElementById(menuId + '-icon');
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      } else {
+        menu.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    }
+
+    function toggleEditModal() {
+        const modal = document.getElementById('edit-modal');
+        const modalBody = document.getElementById('edit-modal-body');
+        
+        if (modal.classList.contains('hidden')) {
+            // Open modal
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('flex', 'opacity-100');
+                modalBody.classList.remove('scale-95', 'opacity-0');
+                modalBody.classList.add('scale-100', 'opacity-100');
+            });
+        } else {
+            // Close modal
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            modalBody.classList.remove('scale-100', 'opacity-100');
+            modalBody.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedDataAI - Review Queue</title>
+  <!-- Tailwind CSS Script CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 900: '#134e4a' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f8fafc;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased bg-slate-50 text-slate-800 flex h-screen overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside
+    class="w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 z-20 flex-shrink-0 relative shadow-xl">
+
+    <!-- Sidebar Brand -->
+    <div class="h-20 flex items-center px-6 border-b border-slate-800/60 bg-slate-950/20">
+      <div
+        class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-md mr-3">
+        M
+      </div>
+      <a href="{% url 'expertdashboard' %}" class="text-xl font-bold tracking-tight text-white">
+        MEDDATA<span class="text-brand-500">AI</span>
+      </a>
+    </div>
+
+    <!-- Sidebar Nav -->
+    <nav class="flex-grow overflow-y-auto py-6 px-4 space-y-1 custom-scrollbar">
+
+      <a href="{% url 'expertdashboard' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-home w-5 mr-3 text-center"></i> Dashboard Overview
+      </a>
+
+      <a href="{% url 'checkings' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl bg-brand-500/10 text-brand-400">
+        <i class="fas fa-tasks w-5 mr-3 text-center"></i> Review Queue
+      </a>
+
+      <!-- Dropdown -->
+      <div class="space-y-1">
+        <button type="button" onclick="toggleDropdown('doctors-menu')"
+          class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+          <div class="flex items-center">
+            <i class="fas fa-user-md w-5 mr-3 text-center"></i> Directory
+          </div>
+          <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="doctors-menu-icon"></i>
+        </button>
+        <div class="hidden pl-12 pr-4 py-2 space-y-1" id="doctors-menu">
+          <a href="{% url 'expertdoctor' %}"
+            class="block px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">Expert
+            Team</a>
+          <a href="{% url 'doctor' %}"
+            class="block px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">Diagnostic
+            Doctors</a>
+        </div>
+      </div>
+
+      <a href="{% url 'patient_list' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-users w-5 mr-3 text-center"></i> Patient Registry
+      </a>
+
+      <a href="{% url 'infoform' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-file-medical w-5 mr-3 text-center"></i> Information Form
+      </a>
+
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="p-4 border-t border-slate-800/60 bg-slate-950/20">
+      <a href="{% url 'dashboard' %}"
+        class="flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-red-500/10 hover:text-red-400 transition-colors w-full group">
+        <i class="fas fa-sign-out-alt mr-2 group-hover:-translate-x-1 transition-transform"></i> Sign Out
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex flex-col min-w-0 bg-slate-50 overflow-y-auto">
+    <!-- Top header -->
+    <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10 shadow-sm">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900">Patient Review Queue</h1>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white shadow-sm flex items-center justify-center text-slate-500 overflow-hidden cursor-pointer hover:bg-slate-300 transition-colors">
+          <i class="fas fa-user cursor-pointer"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="p-8 max-w-full lg:max-w-7xl mx-auto w-full animate-fade-in-up">
+
+      {% block content %}
+      <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Pending Actions</h2>
+          <p class="text-sm text-slate-500">Select a patient record to view the MRI and provide your expert review.</p>
+        </div>
+        <div
+          class="mt-4 md:mt-0 text-sm font-medium bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brand-500"></span> Live Queue
+        </div>
+      </div>
+
+      {% if records %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for record in records %}
+        <a href="{% url 'record_detail' record.id %}" class="block group">
+          <div
+            class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 hover:shadow-md hover:border-brand-300 transition-all duration-200 h-full flex flex-col relative overflow-hidden">
+
+            <!-- Top Accent Bar -->
+            <div
+              class="absolute top-0 left-0 w-full h-1 {% if record.prediction == 'notumor' %}bg-green-500{% elif record.prediction == 'pituitary' %}bg-amber-500{% elif record.prediction == 'meningioma' %}bg-purple-500{% elif record.prediction == 'glioma' %}bg-red-500{% else %}bg-slate-300{% endif %}">
+            </div>
+
+            <div class="flex items-start justify-between mb-4 mt-1">
+              <div
+                class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                <i class="fas fa-user"></i>
+              </div>
+              <span
+                class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                Need Review
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold text-slate-900 mb-1 truncate">{{ record.patient_name }}</h3>
+
+            <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <p class="text-xs text-slate-400 font-medium tracking-wide uppercase mb-0.5">AI Prediction</p>
+                <p
+                  class="text-sm font-semibold capitalize {% if record.prediction == 'notumor' %}text-green-600{% elif record.prediction == 'pituitary' %}text-amber-600{% elif record.prediction == 'meningioma' %}text-purple-600{% elif record.prediction == 'glioma' %}text-red-600{% else %}text-slate-600{% endif %}">
+                  {{ record.prediction }}
+                </p>
+              </div>
+              <div class="flex items-center gap-3">
+                <button type="button" onclick="event.preventDefault(); event.stopPropagation(); openDeleteModal({{ record.id }}, '{{ record.patient_name|escapejs }}')"
+                  class="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer" title="Delete Record">
+                  <i class="fas fa-trash-alt text-[15px]"></i>
+                </button>
+                <div class="text-brand-500 transition-transform group-hover:translate-x-1">
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <!-- Empty State -->
+      <div
+        class="bg-white rounded-2xl border border-slate-200 border-dashed p-12 text-center flex flex-col items-center justify-center min-h-[400px]">
+        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4 text-slate-400">
+          <i class="fas fa-folder-open text-3xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-800 mb-2">No Records Found</h3>
+        <p class="text-slate-500 max-w-sm">The review queue is currently empty. Any new MRI uploads requiring expert
+          validation will appear here.</p>
+      </div>
+      {% endif %}
+
+      {% endblock %}
+    </div>
+  </main>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="delete-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm transition-opacity opacity-0">
+      <div id="delete-modal-body" class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-sm w-full mx-4 transform transition-all scale-95 opacity-0 text-center">
+          <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+              <i class="fas fa-trash-alt"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Delete Record</h3>
+          <p class="text-slate-500 text-sm mb-6">Are you sure you want to delete the record for <strong id="delete-patient-name" class="text-slate-700"></strong>? This action cannot be undone.</p>
+          <div class="flex gap-3">
+              <button onclick="closeDeleteModal()" class="flex-1 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">
+                  Cancel
+              </button>
+              <button onclick="confirmDelete()" id="confirm-delete-btn" class="flex-1 px-4 py-2.5 rounded-xl bg-red-600 text-white font-bold hover:bg-red-700 transition-colors flex justify-center items-center">
+                  Delete
+              </button>
+          </div>
+      </div>
+  </div>
+
+  <script>
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const icon = document.getElementById(menuId + '-icon');
+
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      } else {
+        menu.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    }
+
+    let recordToDelete = null;
+
+    function openDeleteModal(recordId, patientName) {
+        recordToDelete = recordId;
+        document.getElementById('delete-patient-name').textContent = patientName;
+        
+        const modal = document.getElementById('delete-modal');
+        const modalBody = document.getElementById('delete-modal-body');
+        
+        modal.classList.remove('hidden');
+        requestAnimationFrame(() => {
+            modal.classList.remove('opacity-0');
+            modal.classList.add('flex', 'opacity-100');
+            modalBody.classList.remove('scale-95', 'opacity-0');
+            modalBody.classList.add('scale-100', 'opacity-100');
+        });
+    }
+
+    function closeDeleteModal() {
+        recordToDelete = null;
+        const modal = document.getElementById('delete-modal');
+        const modalBody = document.getElementById('delete-modal-body');
+        
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
+        modalBody.classList.remove('scale-100', 'opacity-100');
+        modalBody.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }, 300);
+    }
+
+    function confirmDelete() {
+        if (!recordToDelete) return;
+        
+        const btn = document.getElementById('confirm-delete-btn');
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+        btn.disabled = true;
+        
+        let deleteUrl = "{% url 'mri:delete_mri_record' 999999 %}".replace('999999', recordToDelete);
+
+        fetch(deleteUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success' || data.message) {
+                window.location.reload();
+            } else {
+                alert('Failed to delete: ' + data.error);
+                closeDeleteModal();
+                btn.innerHTML = 'Delete';
+                btn.disabled = false;
+            }
+        })
+        .catch(err => {
+            alert('A network error occurred.');
+            closeDeleteModal();
+            btn.innerHTML = 'Delete';
+            btn.disabled = false;
+        });
+    }
+  </script>
+</body>
+
+</html>

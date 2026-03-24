@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedDataAI - Expert Dashboard</title>
+  <!-- Tailwind CSS Script CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 900: '#134e4a' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f8fafc;
+    }
+
+    /* slate-50 */
+  </style>
+</head>
+
+<body class="font-sans antialiased bg-slate-50 text-slate-800 flex h-screen overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside
+    class="w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 z-20 flex-shrink-0 relative shadow-xl">
+
+    <!-- Sidebar Brand -->
+    <div class="h-20 flex items-center px-6 border-b border-slate-800/60 bg-slate-950/20">
+      <div
+        class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-md mr-3">
+        M
+      </div>
+      <a href="{% url 'expertdashboard' %}" class="text-xl font-bold tracking-tight text-white">
+        MEDDATA<span class="text-brand-500">AI</span>
+      </a>
+    </div>
+
+    <!-- Sidebar Nav -->
+    <nav class="flex-grow overflow-y-auto py-6 px-4 space-y-1 custom-scrollbar">
+
+      <a href="{% url 'expertdashboard' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl bg-brand-500/10 text-brand-400">
+        <i class="fas fa-home w-5 mr-3 text-center"></i> Dashboard Overview
+      </a>
+
+      <a href="{% url 'checkings' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-tasks w-5 mr-3 text-center"></i> Review Queue
+      </a>
+
+      <!-- Dropdown -->
+      <div class="space-y-1">
+        <button type="button" onclick="toggleDropdown('doctors-menu')"
+          class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+          <div class="flex items-center">
+            <i class="fas fa-user-md w-5 mr-3 text-center"></i> Directory
+          </div>
+          <i class="fas fa-chevron-down text-xs transition-transform duration-200" id="doctors-menu-icon"></i>
+        </button>
+        <div class="hidden pl-12 pr-4 py-2 space-y-1" id="doctors-menu">
+          <a href="{% url 'expertdoctor' %}"
+            class="block px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">Expert
+            Team</a>
+          <a href="{% url 'doctor' %}"
+            class="block px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">Diagnostic
+            Doctors</a>
+        </div>
+      </div>
+
+      <a href="{% url 'patient_list' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-users w-5 mr-3 text-center"></i> Patient Registry
+      </a>
+
+      <a href="{% url 'infoform' %}"
+        class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+        <i class="fas fa-file-medical w-5 mr-3 text-center"></i> Information Form
+      </a>
+
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="p-4 border-t border-slate-800/60 bg-slate-950/20">
+      <a href="{% url 'dashboard' %}"
+        class="flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-red-500/10 hover:text-red-400 transition-colors w-full group">
+        <i class="fas fa-sign-out-alt mr-2 group-hover:-translate-x-1 transition-transform"></i> Sign Out
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex flex-col min-w-0 bg-slate-50 overflow-y-auto">
+    <!-- Top header -->
+    <header
+      class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10 shadow-sm">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900">Expert Review Dashboard</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="hidden md:flex flex-col text-right">
+          <span class="text-sm font-bold text-slate-900">Expert Admin</span>
+          <span class="text-xs font-medium text-brand-600">Active</span>
+        </div>
+        <div
+          class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white shadow-sm flex items-center justify-center text-slate-500 overflow-hidden">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="p-8 max-w-7xl mx-auto w-full animate-fade-in-up">
+
+      <!-- Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+        <!-- Stat Card 1 -->
+        <div
+          class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-center justify-between hover:shadow-md transition-shadow">
+          <div>
+            <p class="text-sm font-semibold text-slate-500 mb-1">Total Scans</p>
+            <p class="text-3xl font-extrabold text-slate-900">{{ total_scans }}</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl">
+            <i class="fas fa-image"></i>
+          </div>
+        </div>
+
+        <!-- Stat Card 2 -->
+        <div
+          class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-center justify-between hover:shadow-md transition-shadow">
+          <div>
+            <p class="text-sm font-semibold text-slate-500 mb-1">Pending Reviews</p>
+            <p class="text-3xl font-extrabold text-amber-500">{{ pending_reports }}</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl">
+            <i class="fas fa-clock"></i>
+          </div>
+        </div>
+
+        <!-- Stat Card 3 -->
+        <div
+          class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-center justify-between hover:shadow-md transition-shadow">
+          <div>
+            <p class="text-sm font-semibold text-slate-500 mb-1">Expert Doctors</p>
+            <p class="text-3xl font-extrabold text-slate-900">{{ expert_doctors }}</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-500 flex items-center justify-center text-xl">
+            <i class="fas fa-microscope"></i>
+          </div>
+        </div>
+
+        <!-- Stat Card 4 -->
+        <div
+          class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-center justify-between hover:shadow-md transition-shadow">
+          <div>
+            <p class="text-sm font-semibold text-slate-500 mb-1">Diagnostic Doctors</p>
+            <p class="text-3xl font-extrabold text-slate-900">{{ normal_doctors }}</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center text-xl">
+            <i class="fas fa-user-md"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Actions or Welcome Banner -->
+      <div
+        class="bg-gradient-to-r from-brand-600 to-blue-600 rounded-2xl p-8 shadow-lg text-white mb-8 overflow-hidden relative">
+        <div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4 pointer-events-none">
+          <i class="fas fa-shield-alt text-9xl"></i>
+        </div>
+        <div class="relative z-10 max-w-2xl">
+          <h2 class="text-2xl font-bold mb-2">Welcome back to the portal.</h2>
+          <p class="text-brand-100 mb-6">You have {{ pending_reports }} scans awaiting expert review. Prioritize
+            critical cases directly from the Review Queue.</p>
+          <a href="{% url 'checkings' %}"
+            class="inline-flex items-center px-6 py-3 rounded-xl bg-white text-brand-600 font-bold hover:bg-slate-50 shadow-sm transition-colors">
+            Go to Action Queue &rarr;
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function toggleDropdown(menuId) {
+      const menu = document.getElementById(menuId);
+      const icon = document.getElementById(menuId + '-icon');
+
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      } else {
+        menu.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    }
+  </script>
+</body>
+
+</html>

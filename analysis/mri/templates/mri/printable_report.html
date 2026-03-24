@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MRI Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f7f9fc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .report-container {
+            background: white;
+            max-width: 850px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            margin: 2px;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .section p {
+            margin: 6px 0;
+            font-size: 15px;
+        }
+
+        strong {
+            color: #222;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .mri-img {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mri-img img {
+            max-width: 90%;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        .buttons {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        @media print {
+            .buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="buttons">
+    <a href="javascript:window.print()" class="btn">Print</a>
+    <a href="{% url 'download_mri_pdf' record.id %}" class="btn">Download PDF</a>
+</div>
+
+<div class="report-container">
+    <div class="header">
+        <h1>MEDDATAI IMAGING CENTER</h1>
+        <p>X-Ray | CT Scan | MRI | USG</p>
+        <p><strong>Patient MRI Report</strong></p>
+    </div>
+
+    <div class="section">
+        <h2>Patient Information</h2>
+        <p><strong>Name:</strong> {{ record.patient_name }}</p>
+        <p><strong>Age:</strong> {{ record.patient_age }}</p>
+        <p><strong>Gender:</strong> {{ record.gender }}</p>
+        <p><strong>Medical Type:</strong> {{ record.medical_type }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Prediction Details</h2>
+        <p><strong>Prediction:</strong> {{ record.prediction }}</p>
+        <p><strong>Tumor Status:</strong> {{ record.tumor_status }}</p>
+        <p><strong>Medical Problem:</strong> {{ record.medical_problem }}</p>
+        <p><strong>Doctor Name:</strong> {{ record.doctor_name }}</p>
+    </div>
+
+    {% if record.recommendation %}
+    <div class="section">
+        <h2>Recommendations</h2>
+        <p>{{ record.recommendation }}</p>
+    </div>
+    {% endif %}
+
+    {% if record.precaution %}
+    <div class="section">
+        <h2>Precautions</h2>
+        <p>{{ record.precaution }}</p>
+    </div>
+    {% endif %}
+
+    {% if record.mri_image %}
+    <div class="section">
+        <h2>Uploaded MRI Image</h2>
+        <div class="mri-img">
+            <img src="{{ record.mri_image.url }}" alt="MRI Image">
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <p>Thank you for choosing <strong>MEDDATAI</strong>. Wishing you good health!</p>
+    </div>
+</div>
+
+</body>
+</html>
